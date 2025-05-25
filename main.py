@@ -147,9 +147,9 @@ def show_results(
         help="하나 이상의 결과 폴더 경로들. 공백으로 구분하여 여러 경로 지정 가능: path1 path2 path3",
     ),
     sort_by: str = typer.Option(
-        "f1",
+        "distance",
         "--sort-by", "-s",
-        help="정렬 기준 ('f1', 'recall', 'precision', 'reliability', 'latency' 중 하나)",
+        help="정렬 기준 ('distance','f1', 'recall', 'precision', 'reliability', 'latency' 중 하나)",
     ),
     specific_files: list[str] = typer.Option(
         None,
@@ -317,11 +317,6 @@ def visualize(
         "--port", "-p",
         help="Streamlit 서버 포트 번호입니다.",
     ),
-    fix_arrow_error: bool = typer.Option(
-        True,
-        "--fix-arrow-error", "-f",
-        help="PyArrow 변환 오류를 방지하기 위해 혼합 타입 컬럼을 문자열로 변환합니다.",
-    ),
 ):
     """Streamlit 앱을 실행하여 예측 결과와 실제값을 비교 시각화합니다."""
     import subprocess
@@ -336,14 +331,8 @@ def visualize(
         "--server.port", str(port)
     ]
     
-    # 데이터 변환 플래그 추가
-    if fix_arrow_error:
-        cmd.extend(["--", "--fix-arrow-error"])
-    
     try:
         logger.info(f"Streamlit 시각화 도구를 포트 {port}에서 시작합니다...")
-        if fix_arrow_error:
-            logger.info("데이터 변환 오류 수정 활성화: 혼합 타입 컬럼을 문자열로 변환합니다.")
         subprocess.run(cmd)
     except KeyboardInterrupt:
         logger.info("Streamlit 앱이 종료되었습니다.")

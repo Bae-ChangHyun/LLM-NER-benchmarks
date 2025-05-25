@@ -2,6 +2,7 @@ import itertools
 import json
 import numpy as np
 import pandas as pd
+from deepdiff import DeepDiff
 from loguru import logger
 
 
@@ -57,7 +58,7 @@ def reliability_metric(percent_successful: dict[str, list[float]], model_hosts=N
         models.append(model_display)
         # 빈 배열 체크 추가
         if len(values) > 0:
-            reliabilities.append(np.mean(values))
+            reliabilities.append(values[0])
         else:
             reliabilities.append(0.0)  # 빈 배열인 경우 0으로 처리
     
@@ -65,20 +66,19 @@ def reliability_metric(percent_successful: dict[str, list[float]], model_hosts=N
     reliability_df = pd.DataFrame({
         "Framework": frameworks,
         "Model(host)": models,
-        "Reliability": reliabilities
+        "reliability": reliabilities
     })
     
     reliability_df = reliability_df.round(3)
-    reliability_df = reliability_df.sort_values(by="Reliability", ascending=False)
+    reliability_df = reliability_df.sort_values(by="reliability", ascending=False)
     return reliability_df
 
 
-def latency_metric(latencies: dict[str, list[float]], percentile: int = 95, model_hosts=None):
+def latency_metric(latencies: dict[str, list[float]],model_hosts=None):
     """지연 시간 지표를 계산하는 함수.
     
     Args:
         latencies (dict): 프레임워크별 지연 시간 목록
-        percentile (int): 백분위수
         model_hosts (dict, optional): 모델 호스트 정보
         
     Returns:
@@ -110,7 +110,7 @@ def latency_metric(latencies: dict[str, list[float]], percentile: int = 95, mode
         models.append(model_display)
         # 빈 배열 체크 추가
         if len(values) > 0:
-            latency_values.append(np.percentile(values, percentile))
+            latency_values.append(np.mean(values))  # 평균 지연 시간 계산
         else:
             latency_values.append(0.0)  # 빈 배열인 경우 0으로 처리
     
@@ -118,11 +118,11 @@ def latency_metric(latencies: dict[str, list[float]], percentile: int = 95, mode
     latency_df = pd.DataFrame({
         "Framework": frameworks,
         "Model(host)": models,
-        f"Latency_p{percentile}(s)": latency_values
+        "Latency(s)": latency_values
     })
     
     latency_df = latency_df.round(3)
-    latency_df = latency_df.sort_values(by=f"Latency_p{percentile}(s)", ascending=True)
+    latency_df = latency_df.sort_values(by="Latency(s)", ascending=True)
     return latency_df
 
 
@@ -198,9 +198,10 @@ def ner_micro_metrics(results: dict[str, dict], ground_truths=None):
     micro_metrics = {
             "Framework": [],
             "Model(host)": [],
-            "micro_precision": [],
-            "micro_recall": [],
-            "micro_f1": []
+            "distance": [],
+            "precision": [],
+            "recall": [],
+            "f1": []
         }
     
     for framework, values in results.items():
@@ -216,9 +217,10 @@ def ner_micro_metrics(results: dict[str, dict], ground_truths=None):
             
             micro_metrics["Framework"].append(framework_name)
             micro_metrics["Model(host)"].append(model_display)
-            micro_metrics["micro_precision"].append(0.0)
-            micro_metrics["micro_recall"].append(0.0)
-            micro_metrics["micro_f1"].append(0.0)
+            micro_metrics["distance"].append(1.0)
+            micro_metrics["precision"].append(0.0)
+            micro_metrics["recall"].append(0.0)
+            micro_metrics["f1"].append(0.0)
             continue
         # 각 예측마다 true positives, false positives, false negatives 계산
         for i, pred_runs in enumerate(predictions):
@@ -238,13 +240,16 @@ def ner_micro_metrics(results: dict[str, dict], ground_truths=None):
                 tp_total += tp
                 fp_total += fp
                 fn_total += fn
+                
+                diff = DeepDiff(truth, pred, ignore_order=True, get_deep_distance=True)
+
 
         # 정밀도, 재현율, F1 계산
-        micro_precision = tp_total / (tp_total + fp_total) if (tp_total + fp_total) > 0 else 0
-        micro_recall = tp_total / (tp_total + fn_total) if (tp_total + fn_total) > 0 else 0
-        micro_f1 = (
-            2 * micro_precision * micro_recall / (micro_precision + micro_recall)
-            if (micro_precision + micro_recall) > 0
+        precision = tp_total / (tp_total + fp_total) if (tp_total + fp_total) > 0 else 0
+        recall = tp_total / (tp_total + fn_total) if (tp_total + fn_total) > 0 else 0
+        f1 = (
+            2 * precision * recall / (precision + recall)
+            if (precision + recall) > 0
             else 0
         )
 
@@ -257,29 +262,30 @@ def ner_micro_metrics(results: dict[str, dict], ground_truths=None):
         
         micro_metrics["Framework"].append(framework_name)
         micro_metrics["Model(host)"].append(model_display)
-        micro_metrics["micro_precision"].append(micro_precision)
-        micro_metrics["micro_recall"].append(micro_recall)
-        micro_metrics["micro_f1"].append(micro_f1)
+        micro_metrics["distance"].append(diff['deep_distance'])
+        micro_metrics["precision"].append(precision)
+        micro_metrics["recall"].append(recall)
+        micro_metrics["f1"].append(f1)
 
     return pd.DataFrame(micro_metrics)
 
 
-def combined_metrics(results: dict[str, dict], ground_truths=None, percentile: int = 95, sort_by: str = "micro_f1"):
+def combined_metrics(results: dict[str, dict], ground_truths=None, sort_by: str = "distance"):
     """모든 평가 지표(정밀도, 재현율, F1, 신뢰성, 지연 시간)를 하나의 표로 통합합니다.
     
     Args:
         results (dict): 프레임워크별 예측 결과가 포함된 딕셔너리
         ground_truths (list, optional): 정답 데이터. None인 경우 results에 저장된 metrics 사용
         percentile (int, optional): 지연 시간 백분위 기준. 기본값은 95
-        sort_by (str, optional): 정렬 기준 ('micro_f1', 'micro_recall', 'micro_precision', 'reliability', 'latency' 중 하나). 기본값은 'micro_f1'
+        sort_by (str, optional): 정렬 기준 ('f1', 'recall', 'precision', 'reliability', 'latency' 중 하나). 기본값은 'f1'
         
     Returns:
         pd.DataFrame: 모든 지표가 포함된 데이터프레임
     """
     # 결과가 비어있는지 확인
     if not results:
-        return pd.DataFrame(columns=["Framework", "Model(host)", "micro_precision", "micro_recall", 
-                                   "micro_f1", "Reliability", "Latency"])
+        return pd.DataFrame(columns=["Framework", "Model(host)", "distance","precision", "recall", 
+                                   "f1", "reliability", "Latency"])
     
     # ground_truths가 None인지 확인
     if ground_truths is None:
@@ -307,54 +313,32 @@ def combined_metrics(results: dict[str, dict], ground_truths=None, percentile: i
     
     try:
         # 각 지표 계산
-        ner_df = ner_micro_metrics(results, ground_truths)
+        json_df = ner_micro_metrics(results, ground_truths)
         reliability_df = reliability_metric(percent_successful, model_hosts)
-        latency_df = latency_metric(latencies, percentile, model_hosts)
+        latency_df = latency_metric(latencies, model_hosts)
         
         # 데이터프레임이 비어있는지 확인
-        if ner_df.empty or reliability_df.empty or latency_df.empty:
+        if json_df.empty or reliability_df.empty or latency_df.empty:
             logger.warning("하나 이상의 지표 데이터프레임이 비어 있습니다.")
         
         # 데이터프레임 병합
-        combined_df = ner_df.merge(
+        combined_df = json_df.merge(
             reliability_df, on=["Framework", "Model(host)"], how="outer"
         ).merge(
             latency_df, on=["Framework", "Model(host)"], how="outer"
         )
-        
-        # 컬럼명 정리
-        combined_df = combined_df.rename(columns={
-            f"Latency_p{percentile}(s)": "Latency"
-        })
-        
-        # 누락된 값 처리
         combined_df = combined_df.fillna(0)
-        
-        # 숫자 반올림
-        numeric_cols = ["micro_precision", "micro_recall", "micro_f1", "Reliability", "Latency"]
-        for col in numeric_cols:
-            if col in combined_df.columns:
-                combined_df[col] = combined_df[col].round(3)
-        
-        # 사용자 정의 정렬 기준으로 정렬
-        sort_column = {
-            "f1": "micro_f1",
-            "micro_f1": "micro_f1",
-            "recall": "micro_recall",
-            "micro_recall": "micro_recall",
-            "precision": "micro_precision",
-            "micro_precision": "micro_precision",
-            "reliability": "Reliability",
-            "latency": "Latency"
-        }.get(sort_by.lower(), "micro_f1")
-        
-        # sort_column이 존재하는지 확인
-        if sort_column in combined_df.columns:
+
+        if sort_by in combined_df.columns:
             # 지연 시간은 낮을수록 좋으므로 오름차순 정렬, 나머지는 내림차순 정렬
-            ascending = (sort_column == "Latency")
-            combined_df = combined_df.sort_values(by=sort_column, ascending=ascending)
+            ascending = (sort_by in ["distance","Latency"])
+            combined_df = combined_df.sort_values(by=sort_by, ascending=ascending)
+            cols = list(combined_df.columns)
+            remaining_cols = [col for col in cols if col not in ["Framework", "Model(host)", sort_by]]
+            new_cols = ["Framework", "Model(host)", sort_by] + remaining_cols
+            combined_df = combined_df[new_cols]
         else:
-            logger.warning(f"정렬 컬럼 '{sort_column}'이 데이터프레임에 존재하지 않습니다.")
+            logger.warning(f"정렬 컬럼 '{sort_by}'이 데이터프레임에 존재하지 않습니다.")
         
         # 인덱스 재설정 (인덱스를 순차적으로 새로 부여하고 인덱스 컬럼 제거)
         combined_df = combined_df.reset_index(drop=True)
@@ -364,76 +348,5 @@ def combined_metrics(results: dict[str, dict], ground_truths=None, percentile: i
     except Exception as e:
         logger.error(f"combined_metrics 함수 실행 중 오류 발생: {e}")
         # 오류 발생시 빈 데이터프레임 반환
-        return pd.DataFrame(columns=["Framework", "Model(host)", "micro_precision", "micro_recall", 
-                                   "micro_f1", "Reliability", "Latency"])
-
-
-def compare_json_structures(pred_json, truth_json):
-    """두 JSON 구조를 비교하여 차이점을 상세하게 출력합니다.
-    
-    Args:
-        pred_json: 예측된 JSON 데이터
-        truth_json: 실제 정답 JSON 데이터
-        
-    Returns:
-        dict: 카테고리별 차이점 정보
-    """
-    pred_set = flatten_json_to_set(pred_json)
-    truth_set = flatten_json_to_set(truth_json)
-    
-    # 공통 항목
-    common = pred_set.intersection(truth_set)
-    
-    # 오직 예측에만 존재하는 항목
-    only_in_pred = pred_set - truth_set
-    
-    # 오직 실제에만 존재하는 항목
-    only_in_truth = truth_set - pred_set
-    
-    return {
-        "common_count": len(common),
-        "only_in_pred_count": len(only_in_pred),
-        "only_in_truth_count": len(only_in_truth),
-        "common": sorted(list(common)),
-        "only_in_pred": sorted(list(only_in_pred)),
-        "only_in_truth": sorted(list(only_in_truth))
-    }
-
-
-def save_comparison_details(results, ground_truths, output_path):
-    """예측과 실제 간의 자세한 비교 정보를 JSON 파일로 저장합니다.
-    
-    Args:
-        results (dict): 프레임워크별 예측 결과
-        ground_truths (list): 정답 데이터 경로 목록
-        output_path (str): 결과를 저장할 경로
-        
-    Returns:
-        None
-    """
-    comparison_details = {}
-    
-    for framework, values in results.items():
-        framework_details = []
-        predictions = values.get("predictions", [])
-        
-        for i, pred_runs in enumerate(predictions):
-            if i >= len(ground_truths):
-                continue
-                
-            with open(ground_truths[i], 'r') as f:
-                truth = json.load(f)
-            
-            for run_idx, pred in enumerate(pred_runs):
-                comparison = compare_json_structures(pred, truth)
-                comparison["run_index"] = run_idx
-                comparison["document_index"] = i
-                comparison["document_id"] = ground_truths[i]
-                framework_details.append(comparison)
-        
-        comparison_details[framework] = framework_details
-    
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(comparison_details, f, ensure_ascii=False, indent=2)
-    
-    logger.info(f"비교 세부 정보가 {output_path}에 저장되었습니다.")
+        return pd.DataFrame(columns=["Framework", "Model(host)", "precision", "recall", 
+                                   "f1", "reliability", "Latency"])
