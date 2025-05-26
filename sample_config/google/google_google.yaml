@@ -11,7 +11,7 @@ GoogleFramework:
       base_url : "https://generativelanguage.googleapis.com/v1beta/openai/"
       source_data_pickle_path: "data/resume_data.pkl"
       api_delay_seconds: 5
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
 
   - task: "ner"
     retries: 3
@@ -22,7 +22,7 @@ GoogleFramework:
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
       source_data_pickle_path: "data/resume_data.pkl"
       api_delay_seconds: 5
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
 
   - task: "ner"
     retries: 3
@@ -33,7 +33,7 @@ GoogleFramework:
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
       source_data_pickle_path: "data/resume_data.pkl"
       api_delay_seconds: 7
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
   
   - task: "ner"
     retries: 3
@@ -44,7 +44,7 @@ GoogleFramework:
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
       source_data_pickle_path: "data/resume_data.pkl"
       api_delay_seconds: 3
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
 
   - task: "ner"
     retries: 3
@@ -55,7 +55,7 @@ GoogleFramework:
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
       source_data_pickle_path: "data/resume_data.pkl"
       api_delay_seconds: 3
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
 
 
       

@@ -27,43 +27,6 @@ def response_parsing(response: Any) -> Any:
         response = response.model_dump(exclude_none=True)
     return response
 
-
-def calculate_metrics(
-    y_true: dict[str, list[str]], y_pred: dict[str, list[str]]
-) -> tuple[
-    dict[str, dict[str, float]],
-    dict[str, dict[str, float]],
-    dict[str, dict[str, float]],
-]:
-    """Calculate the total True positives, False positives and False negatives for each entity in the NER task.
-
-    Args:
-        y_true (dict[str, list[str]]): The actual labels in the format {"entity1": ["value1", "value2"], "entity2": ["value3"]}
-        y_pred (dict[str, list[str]]): The predicted labels in the format {"entity1": ["value1", "value2"], "entity2": ["value3"]}
-
-    Returns:
-        tuple[dict[str, dict[str, float]], dict[str, dict[str, float]], dict[str, dict[str, float]]]: True positives, False positives and False negatives for each entity.
-    """
-    tp, fp, fn = {}, {}, {}
-    for entity in y_true:
-        tp[entity] = 0
-        fp[entity] = 0
-        fn[entity] = 0
-
-        true_values = set(y_true.get(entity, []))
-        pred_values = set(y_pred.get(entity, []))
-
-        tp[entity] += len(true_values & pred_values)
-        fp[entity] += len(pred_values - true_values)
-        fn[entity] += len(true_values - pred_values)
-
-    return {
-        "true_positives": tp,
-        "false_positives": fp,
-        "false_negatives": fn,
-    }
-
-
 def experiment(
     retries: int = 10,
     expected_response: Any = None,
@@ -117,15 +80,10 @@ def experiment(
             num_successful = len(responses)
             percent_successful = num_successful / actual_runs  # 실제 시도 횟수로 계산
             logger.info(f"총 {actual_runs}회 시도 중 {num_successful}회 성공 (성공률: {percent_successful:.2%})")
-
-            framework_metrics = []
-            for response in responses:
-                framework_metrics.append(calculate_metrics(expected_response, response))
-
+            
             return (
                 responses,
                 percent_successful,
-                framework_metrics if expected_response else None,
                 latencies,
             )
 
@@ -144,7 +102,6 @@ class BaseFramework(ABC):
     response_model: Any
     device: str
     api_delay_seconds: float  # API 요청 사이의 지연 시간(초)
-    description_path: str
 
     def __init__(self, *args, **kwargs) -> None:
         self.prompt = kwargs.get("prompt", "")
@@ -153,7 +110,6 @@ class BaseFramework(ABC):
         self.base_url = kwargs.get("base_url", os.environ.get("OLLAMA_HOST", ""))
         self.device = kwargs.get("device", "cpu")
         self.api_delay_seconds = kwargs.get("api_delay_seconds", 0)  # API 지연 시간 설정
-        self.description_path = kwargs.get("description_path", "")
         
 
         # Check framework compatibility with model host
@@ -174,14 +130,6 @@ class BaseFramework(ABC):
         else:
             self.source_data = None
         
-
-
-        self.entities = list({key for d in self.source_data["labels"] for key in d.keys()})
-        
-        if self.description_path != "":
-            with open(self.description_path, "r", encoding="utf-8") as file:
-                self.descriptions = json.load(file)
-        #self.response_model = ner_model(self.entities, self.descriptions)
         self.response_model = ResumeInfo
 
     @abstractmethod

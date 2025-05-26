@@ -48,6 +48,6 @@ class GuardrailsFramework(BaseFramework):
                 
             return response
 
-        predictions, percent_successful, metrics, latencies = run_experiment(inputs)
+        predictions, percent_successful, latencies = run_experiment(inputs)
         logger.info(f"실행 결과 - 성공률: {percent_successful}, 응답 수: {len(predictions) if predictions else 0}")
-        return predictions, percent_successful, metrics, latencies
+        return predictions, percent_successful, latencies

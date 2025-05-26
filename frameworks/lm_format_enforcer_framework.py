@@ -44,5 +44,5 @@ class LMFormatEnforcerFramework(BaseFramework):
             response = self.response_model(**json.loads(response))
             return response
 
-        predictions, percent_successful, metrics, latencies = run_experiment(inputs)
-        return predictions, percent_successful, metrics, latencies
+        predictions, percent_successful, latencies = run_experiment(inputs)
+        return predictions, percent_successful, latencies

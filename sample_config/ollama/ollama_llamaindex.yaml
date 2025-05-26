@@ -8,7 +8,7 @@ LlamaIndexFramework:
       llm_provider: "ollama"
       source_data_pickle_path: "data/resume_data.pkl"
       base_url: "http://localhost:11434/v1"
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
 
   - task: "ner"
     retries: 3
@@ -19,7 +19,7 @@ LlamaIndexFramework:
       llm_provider: "ollama"
       source_data_pickle_path: "data/resume_data.pkl"
       base_url: "http://localhost:11434/v1"
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
   
   - task: "ner"
     retries: 3
@@ -30,7 +30,7 @@ LlamaIndexFramework:
       llm_provider: "ollama"
       source_data_pickle_path: "data/resume_data.pkl"
       base_url: "http://localhost:11434/v1"
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
   
   - task: "ner"
     retries: 3
@@ -41,5 +41,5 @@ LlamaIndexFramework:
       llm_provider: "ollama"
       source_data_pickle_path: "data/resume_data.pkl"
       base_url: "http://localhost:11434/v1"
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
+      
   

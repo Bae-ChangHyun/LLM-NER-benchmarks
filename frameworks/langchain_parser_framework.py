@@ -73,5 +73,5 @@ class LangchainParserFramework(BaseFramework):
             response = chain.invoke(inputs)
             return response
 
-        predictions, percent_successful, metrics, latencies = run_experiment(inputs)
-        return predictions, percent_successful, metrics, latencies
+        predictions, percent_successful, latencies = run_experiment(inputs)
+        return predictions, percent_successful, latencies
