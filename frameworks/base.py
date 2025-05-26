@@ -14,6 +14,7 @@ import traceback
 
 from data_sources.data_models import ner_model
 from config.config_checker import compatibility_checker, FrameworkCompatibilityError
+from data_sources.output_scheme import ResumeInfo
 
 def response_parsing(response: Any) -> Any:
     if isinstance(response, list):
@@ -64,13 +65,13 @@ def calculate_metrics(
 
 
 def experiment(
-    n_runs: int = 10,
+    retries: int = 10,
     expected_response: Any = None,
 ) -> Callable[..., tuple[list[Any], int, Optional[dict], list[list[float]]]]:
     """Decorator to run an LLM call function multiple times and return the responses
 
     Args:
-        n_runs (int): Number of times to run the function
+        retries (int): Number of times to run the function
         expected_response (Any): The expected response. If provided, the decorator will calculate accurary too.
 
     Returns:
@@ -85,10 +86,14 @@ def experiment(
             api_delay_seconds = getattr(self, "api_delay_seconds", 0)
 
             responses, latencies = [], []
-            for i in tqdm(range(n_runs), leave=False):
+            actual_runs = 0
+            success = False
+            
+            for i in tqdm(range(retries), leave=False):
+                actual_runs = i + 1
                 try:
                     start_time = time.time()
-                    logger.debug(f"실험 실행 {i+1}/{n_runs} 시작")
+                    logger.debug(f"실험 실행 {i+1}/{retries} 시작")
                     response = func(*args, **kwargs)
                     end_time = time.time()
                     
@@ -100,17 +105,18 @@ def experiment(
 
                     responses.append(response)
                     latencies.append(end_time - start_time)
-                    logger.debug(f"실험 실행 {i+1}/{n_runs} Success (Time: {end_time - start_time:.2f}초)")
+                    logger.debug(f"실험 실행 {i+1}/{retries} Success (Time: {end_time - start_time:.2f}초)")
+                    success = True
+                    break  # 성공하면 즉시 중단
+                except Exception as e:
+                    logger.error(f"실험 실행 {i+1}/{retries} Failure: {str(e)}")
+                    logger.error(traceback.format_exc())
                     if api_delay_seconds > 0:
                         time.sleep(api_delay_seconds)
-                except Exception as e:
-                    logger.error(f"실험 실행 {i+1}/{n_runs} Failure: {str(e)}")
-
-                    logger.error(traceback.format_exc())
 
             num_successful = len(responses)
-            percent_successful = num_successful / n_runs
-            logger.info(f"총 {n_runs}회 시도 중 {num_successful}회 성공 (성공률: {percent_successful:.2%})")
+            percent_successful = num_successful / actual_runs  # 실제 시도 횟수로 계산
+            logger.info(f"총 {actual_runs}회 시도 중 {num_successful}회 성공 (성공률: {percent_successful:.2%})")
 
             framework_metrics = []
             for response in responses:
@@ -133,7 +139,6 @@ class BaseFramework(ABC):
     llm_model: str
     llm_provider: str
     base_url: str
-    retries: int
     source_data_pickle_path: str
     sample_rows: int
     response_model: Any
@@ -146,10 +151,10 @@ class BaseFramework(ABC):
         self.llm_model = kwargs.get("llm_model", "gpt-3.5-turbo")
         self.llm_provider = kwargs.get("llm_provider", "openai")
         self.base_url = kwargs.get("base_url", os.environ.get("OLLAMA_HOST", ""))
-        self.retries = kwargs.get("retries", 0)
         self.device = kwargs.get("device", "cpu")
         self.api_delay_seconds = kwargs.get("api_delay_seconds", 0)  # API 지연 시간 설정
         self.description_path = kwargs.get("description_path", "")
+        
 
         # Check framework compatibility with model host
         framework_name = self.__class__.__name__
@@ -176,7 +181,8 @@ class BaseFramework(ABC):
         if self.description_path != "":
             with open(self.description_path, "r", encoding="utf-8") as file:
                 self.descriptions = json.load(file)
-        self.response_model = ner_model(self.entities, self.descriptions)
+        #self.response_model = ner_model(self.entities, self.descriptions)
+        self.response_model = ResumeInfo
 
     @abstractmethod
-    def run(self, n_runs: int, expected_response: Any, *args, **kwargs): ...
+    def run(self, retries: int, expected_response: Any, *args, **kwargs): ...

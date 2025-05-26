@@ -1,4 +1,4 @@
-InstructorFramework:
+MirascopeFramework:
   - task: "ner"
     retries: 3
     init_kwargs:
@@ -27,17 +27,6 @@ InstructorFramework:
       prompt: "Extract and resolve a list of entities from the following text: {text}"
       llm_model: "hf.co/Qwen/Qwen3-14B-GGUF:Q4_K_M"
       llm_model_alias: "Qwen3-14B:Q4_K_M"
-      llm_provider: "ollama"
-      source_data_pickle_path: "data/resume_data.pkl"
-      base_url: "http://localhost:11434/v1"
-      description_path: "/home/bch/Project/main_project/scout_partners/llm-ner-benchmarks/data/schema.json"
-  
-  - task: "ner"
-    retries: 3
-    init_kwargs:
-      prompt: "Extract and resolve a list of entities from the following text: {text}"
-      llm_model: "hf.co/google/gemma-3-27b-it-qat-q4_0-gguf:Q4_0"
-      llm_model_alias: "gemma-3-27b-it-qat-q4_0-gguf:Q4_0"
       llm_provider: "ollama"
       source_data_pickle_path: "data/resume_data.pkl"
       base_url: "http://localhost:11434/v1"

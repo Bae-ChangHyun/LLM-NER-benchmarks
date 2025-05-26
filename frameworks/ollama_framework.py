@@ -9,7 +9,7 @@ from loguru import logger
 from frameworks.base import BaseFramework, experiment
 
 
-class VanillaOllamaFramework(BaseFramework):
+class OllamaFramework(BaseFramework):
     """_summary_
     https://ollama.com/blog/structured-outputs
     """
@@ -19,9 +19,9 @@ class VanillaOllamaFramework(BaseFramework):
 
         
     def run(
-        self, n_runs: int, expected_response: Any = None, inputs: dict = {}
+        self, retries: int, expected_response: Any = None, inputs: dict = {}
     ) -> tuple[list[Any], float, dict, list[list[float]]]:
-        @experiment(n_runs=n_runs, expected_response=expected_response)
+        @experiment(retries=retries, expected_response=expected_response)
         def run_experiment(inputs):
             
             response = self.client.chat(

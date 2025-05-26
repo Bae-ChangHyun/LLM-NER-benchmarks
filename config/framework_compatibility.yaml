@@ -3,18 +3,18 @@
 # Available model hosts: openai, google, ollama, transformers
 # Don't modify below contents
 
-VanillaOllamaFramework:
+OllamaFramework:
   hosts:
     - ollama
 
-VanillaOpenAIFramework:
+OpenAIFramework:
   hosts:
     - openai
     - ollama
     - google
     - vllm
 
-VanillaGoogleFramework:
+GoogleFramework:
   hosts:
     - google
 
@@ -41,7 +41,7 @@ MirascopeFramework:
   hosts:
     - openai
     - google
-    #- ollama(not working)
+    - ollama
 
 LMFormatEnforcerFramework:
   hosts:

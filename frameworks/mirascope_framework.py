@@ -19,15 +19,15 @@ class MirascopeFramework(BaseFramework):
         if self.llm_provider == "openai":
             self.client = OpenAI()
             logger.debug("OpenAI 클라이언트가 초기화되었습니다.")
-        # elif self.llm_provider == "ollama":
-        #     self.client = OpenAI(
-        #         base_url=self.host,
-        #         api_key="ollama",
-        #     )
-        #     logger.debug("Ollama 클라이언트가 초기화되었습니다.")
+        elif self.llm_provider == "ollama":
+            self.client = OpenAI(
+                base_url=self.base_url,
+                api_key="empty",
+            )
+            logger.debug("Ollama 클라이언트가 초기화되었습니다.")
         elif self.llm_provider == "google":
             self.client = OpenAI(
-                base_url=self.host,
+                base_url=self.base_url,
                 api_key=os.getenv("GOOGLE_API_KEY"),
             )
             logger.debug("Google 클라이언트가 초기화되었습니다.")
@@ -53,9 +53,9 @@ class MirascopeFramework(BaseFramework):
         return {"computed_fields": {"previous_errors": previous_errors}}
 
     def run(
-        self, n_runs: int, expected_response: Any = None, inputs: dict = {}
+        self, retries: int, expected_response: Any = None, inputs: dict = {}
     ) -> tuple[list[Any], float, dict, list[list[float]]]:
-        @experiment(n_runs=n_runs, expected_response=expected_response)
+        @experiment(retries=retries, expected_response=expected_response)
         def run_experiment(inputs):
             response = self.mirascope_client(**inputs)
             return response

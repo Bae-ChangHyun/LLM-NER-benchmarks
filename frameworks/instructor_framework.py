@@ -33,21 +33,21 @@ class InstructorFramework(BaseFramework):
             logger.debug("Google 클라이언트가 초기화되었습니다.")
 
     def run(
-        self, n_runs: int, expected_response: Any = None, inputs: dict = {}
+        self, retries: int, expected_response: Any = None, inputs: dict = {}
     ) -> tuple[list[Any], float, dict, list[list[float]]]:
-        @experiment(n_runs=n_runs, expected_response=expected_response)
+        @experiment(retries=retries, expected_response=expected_response)
         def run_experiment(inputs):
             if self.llm_provider == "google":
                 response = self.instructor_client.chat.completions.create(
                     response_model=self.response_model,
-                    max_retries=self.retries,
+                    max_retries=retries,
                     messages=[{"role": "user", "content": self.prompt.format(**inputs)}],
                 )
             else:
                 response = self.instructor_client.chat.completions.create(
                     model=self.llm_model,
                     response_model=self.response_model,
-                    max_retries=self.retries,
+                    max_retries=retries,
                     messages=[{"role": "user", "content": self.prompt.format(**inputs)}],
                 )
             return response
