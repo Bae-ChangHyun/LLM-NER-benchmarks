@@ -1,0 +1,59 @@
+{
+  "personal_info": {
+    "name": "배창현",
+    "email": "matthew624@naver.com",
+    "phone": "010-4691-4204",
+    "address": "(16988) 경기 용인시 기흥구 언동로217번길",
+    "age": "24세"
+  },
+  "education": [
+    {
+      "institution": "세종대학교",
+      "degree": "4년제",
+      "score": "3.76/4.5",
+      "major": "데이터사이언스학과",
+      "period": "2018.03 ~ 2024.02"
+    }
+  ],
+  "activities": [
+    {
+      "title": "문서 이미지 분류",
+      "description": "Upstage AI Lab에서 진행된 각종 문서 이미지를 분류하는 대회. | Rank: 2/13\n진단서, 이력서, 영수증 등의 다양한 문서 이미지를 올바르게 분류\nResNet, EfficientNet을 이용한 분류",
+      "period": "2024.01 ~ 2024.02"
+    },
+    {
+      "title": "아파트 실거래가 예측",
+      "description": "Upstage AI Lab에서 진행된 아파트 실거래가를 예측하는 대회 | Rank: 2/20\n서울시 아파트 실거래가를 다양한 데이터를 직접 수집하여 예측\nOptuna, CatBoost, LGBM, RandomForest를 이용한 예측",
+      "period": "2023.12 ~ 2024.01"
+    },
+    {
+      "title": "패스트캠퍼스 부트캠프",
+      "description": "패스트캠퍼스와 업스테이지가 주도하는 Upstage AI Lab이라 불리는 인공지능(AI) 부트캠프 교육과정에 참여하여 학부 생활 때 부족했던 개념 공부 및 다양한 사람들과의 프로젝트 및 협업을 통해 경험을 쌓았습니다.",
+      "period": "2023.10 ~ 2024.04"
+    },
+    {
+      "title": "석유 소모량 예측",
+      "description": "개인 프로젝트\n공장별 특징을 파악하여 공장에서 발생하는 석유 소모량을 예측하는 프로젝트\n군집화 및 LSTM을 이용하여 예측",
+      "period": "2023.06 ~ 2023.07"
+    },
+    {
+      "title": "선행시간에 따른 수위 예측",
+      "description": "개인 프로젝트\n선행시간에 따른 잠수교의 수위를 예측하며 주요 인자를 파악하고 예측 성능 고도화\nOptuna, RandomForest, LGBM 을 이용한 예측",
+      "period": "2022.05 ~ 2023.05"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "데이터분석준전문가(ADsP)",
+      "score": "최종합격",
+      "issuer": "한국데이터베이스진흥원",
+      "date": "2022.03"
+    },
+    {
+      "name": "TOEIC",
+      "score": "940점/PASS",
+      "issuer": "영어",
+      "date": "2023.08"
+    }
+  ]
+}
