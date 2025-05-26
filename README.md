@@ -3,32 +3,60 @@
 <!--- BADGES: START --->
 
 [![Python 3.11.9](https://img.shields.io/badge/python-3.11.9-blue.svg)](https://www.python.org/downloads/release/python-3119/)
-[![GitHub - License](https://img.shields.io/github/license/Bae-ChangHyun/llm-structured-output-benchmarks?logo=github&style=flat&color=green)][#github-license]
+[![GitHub - License](https://img.shields.io/github/license/Bae-ChangHyun/llm-structured-output-benchmarks?logo=github&style=flat&color=green)][### 🧭 Roadmap
 
-![Github](https://img.shields.io/github/followers/Bae-ChangHyun?style=social)
+1. **Framework Integration:**
+   | Framework | Named Entity Recognition |
+   |-----------|:-----------------------:|
+   | [Jsonformer](https://github.com/1rgs/jsonformer) | 💭 Planning |
+   | [Guidance](https://github.com/guidance-ai/guidance) | 💭 Planning |
+   | [DSPy](https://dspy-docs.vercel.app/docs/building-blocks/typed_predictors) | 💭 Planning |
+
+2. **Enhancements:**
+   - Multi-language support
+   - Additional evaluation metrics
+   - Real-time result streaming
+   - Advanced visualization features
+
+## 💡 Contribution guidelines
+
+Contributions are welcome! Here are the steps to contribute:
+
+1. **Open an issue** describing your proposed changes
+2. **Fork the repository** and create a feature branch
+3. **Implement your changes** following the existing code style
+4. **Add tests** for new functionality
+5. **Update documentation** as needed
+6. **Submit a pull request** with a clear description of changes
+
+## 🙏 Feedback
+
+If this work helped you in any way, please consider ⭐ this repository to give feedback so I can spend more time on this project.
+
+For questions, issues, or suggestions, please open an issue on GitHub.[Github](https://img.shields.io/github/followers/Bae-ChangHyun?style=social)
 
 [#github-license]: https://github.com/Bae-ChangHyun/llm-structured-output-benchmarks/blob/main/LICENSE
 
 <!--- BADGES: END --->
 
-Benchmark LLM on NER(Named Entity Recognition) tasks with various frameworks:
-`Instructor`, `Mirascope`, `Langchain`, `LlamaIndex`, `Marvin`, `LMFormatEnforcer`, `etc`
+Benchmark LLM on NER tasks with various frameworks and models:
+`Instructor`, `Mirascope`, `Langchain`, `LlamaIndex`, `Marvin`, `LMFormatEnforcer`, `OpenAI`, `Google`, `Ollama`
 
 ## Attribution
 
 This project is based on the excellent work of the original repository [llm-structured-output-benchmarks](https://github.com/stephenleo/llm-structured-output-benchmarks) created by `stephenleo`.
 I would like to express gratitude to the original author for their contribution to the open source community.
 
-## 🏆 NER Benchmark Results [2025-04-23]
+## 🏆 Benchmark Results [2025-05-26]
 
-| Framework                                                                                           |                Model                 | Reliability |  Latency p95 (s)   | Precision | Recall | F1 Score |
-| --------------------------------------------------------------------------------------------------- | :----------------------------------: | :---------: | :----------------: | :-------: | :----: | :------: |
-| [OpenAI Structured Output](https://github.com/openai/openai-python)                                 |        gpt-4o-mini-2024-07-18        |    1.000    |       3.459        |   0.834   | 0.748  |  0.789   |
-| [LMFormatEnforcer](https://github.com/noamgat/lm-format-enforcer)                                   | unsloth/llama-3-8b-Instruct-bnb-4bit |    1.000    | 6.573<sup>\*</sup> |   0.701   | 0.262  |  0.382   |
-| [Instructor](https://github.com/jxnl/instructor)                                                    |        gpt-4o-mini-2024-07-18        |    0.998    |       2.438        |   0.776   | 0.768  |  0.772   |
-| [Mirascope](https://github.com/mirascope/mirascope)                                                 |        gpt-4o-mini-2024-07-18        |    0.989    |       3.879        |   0.768   | 0.738  |  0.752   |
-| [Llamaindex](https://docs.llamaindex.ai/en/stable/examples/output_parsing/openai_pydantic_program/) |        gpt-4o-mini-2024-07-18        |    0.979    |       5.771        |   0.792   | 0.310  |  0.446   |
-| [Marvin](https://github.com/PrefectHQ/marvin)                                                       |        gpt-4o-mini-2024-07-18        |    0.979    |       3.270        |   0.822   | 0.776  |  0.798   |
+| Framework                                                                                           |                Model                 | Reliability |  Latency p95 (s)   | Precision | Recall | F1 Score | Distance |
+| --------------------------------------------------------------------------------------------------- | :----------------------------------: | :---------: | :----------------: | :-------: | :----: | :------: | :------: |
+| [OpenAI Structured Output](https://github.com/openai/openai-python)                                 |        gpt-4o-mini-2024-07-18        |    1.000    |       3.459        |   0.834   | 0.748  |  0.789   |  0.211   |
+| [LMFormatEnforcer](https://github.com/noamgat/lm-format-enforcer)                                   | unsloth/llama-3-8b-Instruct-bnb-4bit |    1.000    | 6.573<sup>\*</sup> |   0.701   | 0.262  |  0.382   |  0.618   |
+| [Instructor](https://github.com/jxnl/instructor)                                                    |        gpt-4o-mini-2024-07-18        |    0.998    |       2.438        |   0.776   | 0.768  |  0.772   |  0.228   |
+| [Mirascope](https://github.com/mirascope/mirascope)                                                 |        gpt-4o-mini-2024-07-18        |    0.989    |       3.879        |   0.768   | 0.738  |  0.752   |  0.248   |
+| [LlamaIndex](https://docs.llamaindex.ai/en/stable/examples/output_parsing/openai_pydantic_program/) |        gpt-4o-mini-2024-07-18        |    0.979    |       5.771        |   0.792   | 0.310  |  0.446   |  0.554   |
+| [Marvin](https://github.com/PrefectHQ/marvin)                                                       |        gpt-4o-mini-2024-07-18        |    0.979    |       3.270        |   0.822   | 0.776  |  0.798   |  0.202   |
 
 <sup>\*</sup>GPU: `NVIDIA GeForce RTX 4080 Super`
 
@@ -53,7 +81,7 @@ I would like to express gratitude to the original author for their contribution 
 3. **Prepare your configuration file**
 
    - Write your own configuration file for the benchmark. Refer to the examples in the `sample_config` directory for guidance.
-     <br>
+   - Configuration files are organized by provider: `sample_config/openai/`, `sample_config/google/`, `sample_config/ollama/`, `sample_config/vllm/`
 
 4. **Run the benchmark**  
    Use the following command to execute the benchmark:
@@ -62,33 +90,74 @@ I would like to express gratitude to the original author for their contribution 
    python -m main run-benchmark
    ```
 
-   - You can specify a custom configuration file using the `--config` (`-c`) option.
-   - You can specify the results directory using the `--results` (`-r`) option.
-   - For detailed help, run:
-     ```bash
-     python -m main run-benchmark --help
-     ```
+   **Available options:**
+
+   - `--config`, `-c`: Specify configuration file path (default: `config.yaml`, Required)
+   - `--results`, `-r`: Specify results directory (default: `results/{current_date}`, Optional)
+
+   **Examples:**
+
+   ```bash
+   # Run
+   python -m main run-benchmark --config sample_config/openai/openai_openai.yaml --results my_experiment
+
+   # Get help
+   python main.py run-benchmark --help
+   ```
 
 5. **Show the results**  
    Use the following command to generate and view the results:
 
    ```bash
-   python -m main show-results
+   python main.py show-results
    ```
 
-   - If the ground truth has changed, you can specify a new ground truth file without regenerating LLM responses. Just using the `--ground-truth` (`-g`) option.
-   - To compare multiple experiment results, specify multiple result directories, if not specify default is `./results`.
-     `python -m main show-results {folder1} {folder2}`
-   - Customize the sorting of evaluation metrics using the `--sort-by` (`-s`) option.
-   - For detailed help, run:
-     ```bash
-     python -m main show-results --help
-     ```
+   **Available options:**
 
-6. **Get help on command-line arguments**  
+   - `--ground-truth`, `-g`: Specify ground truth PKL file path(Optional)
+   - `--sort-by`, `-s`: Sort results by metric `distance`, `f1`, `recall`, `precision`, `reliability`, `latency` (default: distance, Optional)
+   - `--files`, `-f`: Analyze specific PKL files (comma-separated, Optional)
+
+   **Examples:**
+
+   ```bash
+   # Show all results sorted by F1 score
+   python main.py show-results --sort-by f1
+
+   # Show specific files
+   python -m main show-results --files results/2025-05-26/OpenAIFramework_gpt-4o-mini.pkl
+
+   # Show multiple experiment results
+   python -m main show-results results/experiment1 results/experiment2
+
+   # Use custom ground truth
+   python -m main show-results --ground-truth data/custom_labels.pkl
+
+   # Get help
+   python main.py show-results --help
+   ```
+
+6. **Visualize results**  
+   Launch an interactive Json diff visualization tool:
+
+   ```bash
+   python -m main visualize
+   ```
+
+   **Available options:**
+
+   - `--port`, `-p`: Specify port number (default: 8501)
+
+   **Example:**
+
+   ```bash
+   python -m main visualize --port 8080
+   ```
+
+7. **Get help on command-line arguments**  
    Add `--help` after any command to view detailed usage instructions.
    ```bash
-   python -m main --help
+   python main.py --help
    ```
 
 ## ⚙️ Configuring the benchmark
@@ -96,118 +165,173 @@ I would like to express gratitude to the original author for their contribution 
 The benchmark is configured using a YAML file (default: `config.yaml`).
 Here's how to set up your configuration:
 
-1. Each framework is defined as a top-level entry in the config file:
+1. **Basic configuration structure:**
 
    ```yaml
    FrameworkName:
-     - task: "ner" # Task type
-       max_tries: 10 # Number of runs per sample (required)
+     - task: "ner" # Task type (required)
+       retries: 3 # Max retries when framework fails (required)
        init_kwargs: # Framework initialization parameters
-         prompt: "Your prompt template with {text} placeholder" #(required)
-         llm_model: # model name (required)
-         llm_model_alias: # model alias for show results (optional)
-         llm_provider: # openai / google / ollama / vllm / transformers (required)
-         base_url: # models base_url for openai compatibel (optional)
-         source_data_pickle_path: # ground truth dataset (required)
-         api_delay_seconds: 13 # api delay (optional)
-         retries: # Number of retries for the framework. Default is 0 (optional)
-   0
+         prompt: "Extract and resolve a list of entities from the following text: {text}" # (required)
+         llm_model: "gpt-4o-mini-2024-07-18" # Model name (required)
+         llm_model_alias: "gpt-4o-mini" # Model alias for display (optional)
+         llm_provider: "openai" # Provider type (required)
+         source_data_pickle_path: "data/resume_data.pkl" # Ground truth dataset (required)
+         description_path: "data/schema.json" # Schema description (optional)
+         base_url: "http://localhost:11434" # Custom API endpoint (optional)
+         api_delay_seconds: 1 # API delay between requests (optional)
    ```
 
-2. Supported `llm_provider` values:
+2. **Supported `llm_provider` values:**
 
    - `openai`: OpenAI models (requires OPENAI_API_KEY)
    - `google`: Google models like Gemini (requires GOOGLE_API_KEY)
-   - `ollama`: Local models via Ollama (set `base_url` on config)
-   - `vllm`: Local models via Ollama (set `base_url` on config)
+   - `ollama`: Local models via Ollama (set `base_url` in config)
+   - `vllm`: vLLM models (set `base_url` in config)
    - `transformers`: Hugging Face Transformers models
-
-3. To add a new model configuration, simply create a new entry in the config file with appropriate parameters.
 
 ## 🔧 Framework Compatibility
 
-Each framework supports specific model hosts. The following table shows the compatibility between frameworks and model hosts:
+Each framework supports specific model providers. The following table shows the compatibility matrix:
 
-| Framework \ Model host    | OpenAI | Google | Ollama | Vllm | Transformers |
+| Framework \ Provider      | OpenAI | Google | Ollama | vLLM | Transformers |
 | ------------------------- | :----: | :----: | :----: | :--: | :----------: |
 | OpenAIFramework           |   ✅   |   ✅   |   ✅   |  ✅  |              |
 | GoogleFramework           |        |   ✅   |        |      |              |
 | OllamaFramework           |        |        |   ✅   |      |              |
 | InstructorFramework       |   ✅   |   ✅   |   ✅   |  ✅  |              |
 | MirascopeFramework        |   ✅   |   ✅   |   ✅   |      |              |
-| MarvinFramework           |   ✅   |        |        |      |              |
+| MarvinFramework           |   ✅   |        |   ✅   |      |              |
 | LlamaIndexFramework       |   ✅   |   ✅   |   ✅   |  ✅  |              |
 | LMFormatEnforcerFramework |        |        |        |      |      ✅      |
 | LangchainToolFramework    |   ✅   |   ✅   |   ✅   |  ✅  |              |
 | LangchainParserFramework  |   ✅   |   ✅   |   ✅   |  ✅  |              |
 
-If an incompatible framework and model host are defined in the `config.py` and the benchmark is executed,
-they will be filtered through `config/config_checker` and `config/framework_compatibility.yaml`.
-These safeguards are in place to allow for easy updates in the future, so please avoid modifying the files under the `config` folder.
+**Note:** Framework compatibility is automatically validated using `config/framework_compatibility.yaml`. Incompatible combinations will be filtered out during execution.
 
-## 🧪 NER Benchmark methodology
+## 🧪 Benchmark methodology
 
-- **Task**: Given a text, extract the entities present in it.
-- **Data**:
-  - Base data: [Synthetic PII Finance dataset](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual)
-  - Benchmarking test is run using a sampled data generated by running: `python -m data_sources.generate_dataset generate-ner-data`.
-  - The data is sampled from the base data to achieve number of entities per row according to some distribution. See `python -m data_sources.generate_dataset generate-ner-data --help` for more details.
-- **Prompt**: `Extract and resolve a list of entities from the following text: {text}`
-- **Evaluation Metrics**:
-  1. Latency: The 95th percentile of the time taken to run the framework on the data.
-  2. Precision: The micro average of the precision of the framework on the data.
-  3. Recall: The micro average of the recall of the framework on the data.
-  4. F1 Score: The micro average of the F1 score of the framework on the data.
-- **Experiment Details**: Run each row through the framework `max_tries` number of times and log the percent of successful runs for each row.
+### Evaluation Metrics
+
+1. **Reliability**: Percentage of successful executions across all retries
+2. **Latency**: 95th percentile response time in seconds
+3. **Precision**: Micro-averaged precision score for named entity recognition
+4. **Recall**: Micro-averaged recall score for named entity recognition
+5. **F1 Score**: Micro-averaged F1 score combining precision and recall
+6. **Distance**: Deep difference score using DeepDiff to measure structural similarity
+
+### Experiment Process
+
+1. Each input text is processed through the specified framework with the configured number of retries
+2. Success rate, latency, and prediction accuracy are measured for each run
+3. Results are aggregated and saved as pickle files with model-specific naming
+4. Metrics are calculated by comparing predictions against ground truth labels
+5. Results can be visualized and compared across different frameworks and models
 
 ## 📊 Adding new data
 
-1. Create a new pandas dataframe pickle file with the following columns:
-   - `text`: The text to be sent to the framework
-   - `labels`: List of labels associated with the text
-   - See `data/ner.pkl` for an example.
-2. Add the path to the new pickle file in the `./config.yaml` file under the `source_data_pickle_path` key for all the frameworks you want to test.
+1. **Create a new dataset:**
+
+   ```python
+   import pandas as pd
+
+   # Create DataFrame with required columns
+   data = pd.DataFrame({
+       'text': ['Resume text content...'],
+       'labels': [['Expected', 'entity', 'labels']]
+   })
+
+   # Save as pickle file
+   data.to_pickle('data/my_dataset.pkl')
+   ```
+
+2. **Update configuration:**
+
+   ```yaml
+   YourFramework:
+     - task: "ner"
+       retries: 3
+       init_kwargs:
+         source_data_pickle_path: "data/my_dataset.pkl"
+         # ... other parameters
+   ```
+
+3. **Required columns:**
+   - `text`: Input text to be processed
+   - `labels`: Expected entity labels (list or set format)
 
 ## 🏗️ Adding a new framework
 
-The easiest way to create a new framework is to reference the `./frameworks/instructor_framework.py` file. Detailed steps are as follows:
+1. **Create framework file:**
 
-1. Create a .py file in frameworks directory with the name of the framework. Eg., `instructor_framework.py` for the instructor framework.
-2. In this .py file create a class that inherits `BaseFramework` from `frameworks.base`.
-3. The class should define an `init` method that initializes the base class. Here are the arguments the base class expects:
-   - `prompt` (str): Prompt template used. Obtained from the `init_kwargs` in the `./config.yaml` file.
-   - `llm_model` (str): LLM model to be used. Obtained from the `init_kwargs` in the `./config.yaml` file.
-   - `llm_provider` (str): LLM model host to be used. Current supported values as `"openai"`,`"transformers"`,`"ollama"`,`"vllm"`,`"google"`.
-     Obtained from the `init_kwargs`in the`./config.yaml` file.
-   - `retries` (int): Number of retries for the framework. Default is $0$. Obtained from the `init_kwargs` in the `./config.yaml` file.
-   - `source_data_picke_path` (str): Path to the source data pickle file. Obtained from the `init_kwargs` in the `./config.yaml` file.
-   - `sample_rows` (int): Number of rows to sample from the source data. Useful for testing on a smaller subset of data. Default is $0$ which uses all rows in source_data_pickle_path for the benchmarking. Obtained from the `init_kwargs` in the `./config.yaml` file.
-   - `response_model` (Any): The response model to be used. Internally passed by the benchmarking script.
-4. The class should define a `run` method that takes three arguments:
-   - `max_tries`: number of times to repeat each text
-   - `expected_response`: Output expected from the framework. Use default value of `None`
-   - `inputs`: a dictionary of `{"text": str}` where `str` is the text to be sent to the framework. Use default value of empty dictionary `{}`
-5. This `run` method should create another `run_experiment` function that takes `inputs` as argument, runs that input through the framework and returns the output.
-6. The `run_experiment` function should be annotated with the `@experiment` decorator from `frameworks.base` with `max_tries`, `expected_resposne` and `task` as arguments.
-7. The `run` method should call the `run_experiment` function and return the four outputs `predictions`, `percent_successful`, `metrics` and `latencies`.
-8. Import this new class in `frameworks/__init__.py`.
-9. Add a new entry in the `./config.yaml` file with the name of the class as the key. The yaml entry can have the following fields
-   - `max_tries`: number of times to repeat each text
-   - `init_kwargs`: all the arguments that need to be passed to the `init` method of the class, including those mentioned in step 3 above.
+   ```python
+   # frameworks/my_framework.py
+   from frameworks.base import BaseFramework, experiment
+
+   class MyFramework(BaseFramework):
+       def __init__(self, **kwargs):
+           super().__init__(**kwargs)
+           # Initialize your framework-specific components
+
+       def run(self, retries=0, expected_response=None, inputs={}):
+           @experiment(retries=retries, expected_response=expected_response, task=self.task)
+           def run_experiment(inputs):
+               # Implement your framework logic here
+               response = your_framework_call(inputs["text"])
+               return response
+
+           return run_experiment(inputs)
+   ```
+
+2. **Register framework:**
+
+   ```python
+   # frameworks/__init__.py
+   from .my_framework import MyFramework
+
+   def factory(framework_name, **kwargs):
+       # Add your framework to the factory
+       if framework_name == "MyFramework":
+           return MyFramework(**kwargs)
+       # ... existing framework mappings
+   ```
+
+3. **Update compatibility:**
+
+   ```yaml
+   # config/framework_compatibility.yaml
+   MyFramework:
+     hosts:
+       - openai
+       - google
+       # ... supported providers
+   ```
+
+4. **Create configuration:**
+   ```yaml
+   # your_config.yaml
+   MyFramework:
+     - task: "ner"
+       retries: 3
+       init_kwargs:
+         prompt: "Your prompt template with {text}"
+         llm_model: "your-model"
+         llm_provider: "your-provider"
+         source_data_pickle_path: "data/resume_data.pkl"
+   ```
 
 ## Framework Reference
 
-1. [openai](https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses)
-2. [google](https://ai.google.dev/gemini-api/docs/structured-output?hl=ko&lang=python)
-3. [ollama](https://ollama.com/blog/structured-outputs)
-4. [guradrails](https://github.com/guardrails-ai/guardrails)
-5. [instructor](https://python.useinstructor.com)
-6. [llamaindex](https://docs.llamaindex.ai/en/stable/examples/output_parsing/openai_pydantic_program/)
-7. lmformatenforcer
-8. marvin
-9. mirascope
-10. [langchain_tool](https://python.langchain.com/docs/how_to/structured_output/#the-with_structured_output-method)
-11. [langchain_parser](https://python.langchain.com/docs/how_to/structured_output/#prompting-and-parsing-model-outputs-directly)
+1. [OpenAI Structured Output](https://platform.openai.com/docs/guides/structured-outputs)
+2. [Google Gemini](https://ai.google.dev/gemini-api/docs/structured-output?lang=python)
+3. [Ollama](https://ollama.com/blog/structured-outputs)
+4. [Instructor](https://python.useinstructor.com)
+5. [LlamaIndex](https://docs.llamaindex.ai/en/stable/examples/output_parsing/openai_pydantic_program/)
+6. [LM Format Enforcer](https://github.com/noamgat/lm-format-enforcer)
+7. [Marvin](https://github.com/PrefectHQ/marvin)
+8. [Mirascope](https://github.com/mirascope/mirascope)
+9. [Langchain Tools](https://python.langchain.com/docs/how_to/structured_output/#the-with_structured_output-method)
+10. [Langchain Parser](https://python.langchain.com/docs/how_to/structured_output/#prompting-and-parsing-model-outputs-directly)
 
 ## 🧭 Roadmap
 
