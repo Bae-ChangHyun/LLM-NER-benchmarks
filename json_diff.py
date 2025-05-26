@@ -145,17 +145,93 @@ def main():
         st.error(f"소스 데이터 로드 중 오류 발생: {str(e)}")
         return
     
-    # 샘플 선택
-    sample_idx = st.slider("샘플 인덱스 선택", 0, len(texts) - 1, 0)
+    # 샘플 선택 UI
+    st.subheader("📋 샘플 선택")
+    
+    # 세션 상태에 현재 인덱스 저장
+    if 'current_sample_idx' not in st.session_state:
+        st.session_state.current_sample_idx = 0
+    
+    # 강화된 인덱스 범위 체크
+    max_idx = len(texts) - 1
+    if st.session_state.current_sample_idx < 0:
+        st.session_state.current_sample_idx = 0
+    elif st.session_state.current_sample_idx > max_idx:
+        st.session_state.current_sample_idx = max_idx
+    
+    # 네비게이션 버튼들
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+    
+    with col1:
+        if st.button("⏮️ 처음", help="첫 번째 샘플로 이동", use_container_width=True):
+            st.session_state.current_sample_idx = 0
+    
+    with col2:
+        if st.button("⬅️ 이전", help="이전 샘플로 이동", use_container_width=True):
+            if st.session_state.current_sample_idx > 0:
+                st.session_state.current_sample_idx -= 1
+
+    with col3:
+        if st.button("➡️ 다음", help="다음 샘플로 이동", use_container_width=True):
+            if st.session_state.current_sample_idx < max_idx:
+                st.session_state.current_sample_idx += 1
+    
+    with col4:
+        if st.button("⏭️ 마지막", help="마지막 샘플로 이동", use_container_width=True):
+            st.session_state.current_sample_idx = max_idx
+    
+    # 직접 샘플 번호 입력
+    col_input, col_button = st.columns([3, 1])
+    with col_input:
+        target_sample = st.number_input(
+            label ="샘플 번호 입력",
+            label_visibility= "collapsed",
+            min_value=1, 
+            max_value=len(texts), 
+            value=st.session_state.current_sample_idx + 1,
+            help="직접 샘플 번호를 입력하여 이동"
+        )
+    with col_button:
+        if st.button("이동", use_container_width=True):
+            # 1-based에서 0-based로 변환하고 범위 체크
+            new_idx = target_sample - 1
+            if 0 <= new_idx <= max_idx:
+                st.session_state.current_sample_idx = new_idx
+            else:
+                st.error(f"잘못된 샘플 번호입니다. 1-{len(texts)} 범위의 값을 입력하세요.")
+    
+    # 현재 선택된 인덱스 표시 및 디버깅 정보
+    st.info(f"현재 선택: **{st.session_state.current_sample_idx + 1}** / {len(texts)} 번째 샘플")
+    
+    sample_idx = st.session_state.current_sample_idx
+    
+    # 최종 안전 체크
+    if sample_idx >= len(texts) or sample_idx >= len(ground_truths):
+        st.error(f"인덱스 오류: 샘플 인덱스 {sample_idx}가 범위를 벗어났습니다. (텍스트: {len(texts)}, 라벨: {len(ground_truths)})")
+        st.session_state.current_sample_idx = 0
+        sample_idx = 0
     
     # 현재 샘플의 Ground Truth 로드
-    ground_truth_path = ground_truths[sample_idx]
-    with open(ground_truth_path, "r") as f:
-        ground_truth = json.load(f)
+    try:
+        if sample_idx >= len(ground_truths):
+            st.error(f"Ground truth 인덱스 오류: {sample_idx} >= {len(ground_truths)}")
+            return
+            
+        ground_truth_path = ground_truths[sample_idx]
+        with open(ground_truth_path, "r") as f:
+            ground_truth = json.load(f)
+    except Exception as e:
+        st.error(f"Ground truth 로드 중 오류 발생 (인덱스 {sample_idx}): {str(e)}")
+        return
         
     # 예측 결과 가져오기
     try:
+        if sample_idx >= len(results[selected_framework]["predictions"]):
+            st.error(f"예측 결과 인덱스 오류: {sample_idx} >= {len(results[selected_framework]['predictions'])}")
+            return
+            
         prediction = results[selected_framework]["predictions"][sample_idx]
+        
         # 여러 실행 결과가 있는 경우 첫 번째 결과만 사용
         if isinstance(prediction, list) and len(prediction) > 0:
             # 첫 번째 실행 결과만 사용
@@ -166,11 +242,18 @@ def main():
             else:
                 prediction = first_run
     except (IndexError, KeyError) as e:
-        st.error(f"예측 결과 로드 중 오류 발생: {str(e)}")
+        st.error(f"예측 결과 로드 중 오류 발생 (인덱스 {sample_idx}): {str(e)}")
+        st.write(f"사용 가능한 예측 결과 수: {len(results[selected_framework].get('predictions', []))}")
         prediction = {}
     
     with st.expander("원본 텍스트", expanded=False):
-        st.text(texts[sample_idx])
+        try:
+            if sample_idx < len(texts):
+                st.text(texts[sample_idx])
+            else:
+                st.error(f"텍스트 인덱스 오류: {sample_idx} >= {len(texts)}")
+        except Exception as e:
+            st.error(f"텍스트 표시 중 오류 발생: {str(e)}")
     
     with st.expander("JSON 데이터 보기", expanded=False):
         col1, col2 = st.columns(2)
