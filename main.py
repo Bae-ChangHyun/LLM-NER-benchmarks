@@ -99,7 +99,7 @@ def run_benchmark(
                         else:
                             labels = row.labels
 
-                        predictions, percent_successful, _, latencies = (
+                        predictions, percent_successful,latencies = (
                             framework_instance.run(
                                 inputs={"text": row.text},
                                 retries=retries,
@@ -110,7 +110,7 @@ def run_benchmark(
                         run_results["percent_successful"].append(percent_successful)
                         run_results["latencies"].append(latencies)
                 else:
-                    predictions, percent_successful, _, latencies = (
+                    predictions, percent_successful, latencies = (
                         framework_instance.run(
                             retries=retries,
                         )

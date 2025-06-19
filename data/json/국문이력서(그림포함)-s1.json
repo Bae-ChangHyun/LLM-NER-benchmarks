@@ -1,0 +1,82 @@
+{
+    "personal_info": {
+        "name": "이현우 (HYEONU LEE)",
+        "email": "netmaru@gmail.com",
+        "phone": "+818081152210",
+        "address": "東京都新宿区新宿7-26-3 405",
+        "age": "45"
+    },
+    "education": [
+        {
+            "institution": "연세대학교",
+            "degree": "석사",
+            "score": "-/4.5",
+            "major": "언론홍보대학원 방송영상 전공",
+            "period": "2007-2010"
+        },
+        {
+            "institution": "건국대학교",
+            "degree": "학사",
+            "score": "-/4.5",
+            "major": "경제학과(건축학 부전공)",
+            "period": "1994-2001"
+        }
+    ],
+    "activities": [
+        {
+            "title": "Steam media Corp 전략사업본부 본부장",
+            "description": "SM Ent 자회사 / JASDAQ 상장사 전략기획 및 신사업개발 총괄. SM Ent 및 Keyeast 아티스트 팬클럽 운영/개발 PM",
+            "period": "2017.11 ~ 현재"
+        },
+        {
+            "title": "NHN HANGAME 게임사업본부 사업부장",
+            "description": "일본 한게임 겜블계(파칭코, 파치스로, 마작, 고스톱, 포커 등) 사업 총괄. 2017.04 한게임 카지노 / 슬롯 일본 론칭 사업총괄 (Global One Build)",
+            "period": "2016.11 ~ 2017.09"
+        },
+        {
+            "title": "CJE&M 글로벌 사업본부 부장",
+            "description": "글로벌 디지털 전략 수립 및 글로벌 OTT 프로젝트 진행. 일본 디지털 미디어 지 사업 총괄 PM",
+            "period": "2011.06 ~ 2016.10"
+        },
+        {
+            "title": "엔씨소프트 재팬 웹서비스팀 팀장",
+            "description": "게임포털 PlayNC Japan 및 개별 게임 web/mobile 사이트 구축 및 런쳐 연동. NC Soft 본사 빌링/회원/회원 인프라 연동 리뉴얼 기획 PM",
+            "period": "2010.06 ~ 2011.05"
+        },
+        {
+            "title": "SK 커뮤니케이션즈 싸이월드본부 과장",
+            "description": "싸이월드 선물가게 신규사업개발/ 각종 유료 아이템 기획, Nate Tong(Blog)기획, 지도 서비스 기획",
+            "period": "2006.05 ~ 2010.05"
+        },
+        {
+            "title": "인포렉스 모바일팀 팀장",
+            "description": "커뮤니티서비스 Club5678 총괄기획, 모바일 신사업 개발 및 유료화 모델 설계",
+            "period": "2003.05 ~ 2005.08"
+        },
+        {
+            "title": "위즈맥스 해외사업팀 팀장",
+            "description": "세계최초 광고기반 MP3 제공 서비스 엠피캣 운영, 삼성모바일 협력사",
+            "period": "2001.09 ~ 2003.05"
+        }
+    ],
+    "certificates": [
+        {
+            "name": "JLPT N1",
+            "score": "Pass",
+            "issuer": "일본어능력시험",
+            "date": "2014"
+        },
+        {
+            "name": "SJPT level 6",
+            "score": "Pass",
+            "issuer": "일본어능력시험",
+            "date": "2014"
+        },
+        {
+            "name": "OPIC IM3",
+            "score": "Intermediate Mid",
+            "issuer": "OPIC",
+            "date": "2016"
+        }
+    ]
+}

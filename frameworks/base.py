@@ -12,9 +12,8 @@ from pydantic import BaseModel
 from tqdm import tqdm
 import traceback
 
-from data_sources.data_models import ner_model
-from config.config_checker import compatibility_checker, FrameworkCompatibilityError
-from data_sources.output_scheme import ResumeInfo
+from utils import compatibility_checker, FrameworkCompatibilityError
+from output_scheme import ResumeInfo, MaritimeAccidentReport
 
 def response_parsing(response: Any) -> Any:
     if isinstance(response, list):
@@ -130,7 +129,8 @@ class BaseFramework(ABC):
         else:
             self.source_data = None
         
-        self.response_model = ResumeInfo
+        #self.response_model = ResumeInfo
+        self.response_model = MaritimeAccidentReport
 
     @abstractmethod
     def run(self, retries: int, expected_response: Any, *args, **kwargs): ...

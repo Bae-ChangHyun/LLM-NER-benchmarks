@@ -1,0 +1,76 @@
+InstructorFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"
+
+LangchainToolFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"
+
+LangchainParserFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"
+  
+LlamaIndexFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"
+
+MirascopeFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"
+
+OllamaFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"
+
+OpenAIFramework:
+  - task: "ner"
+    retries: 3
+    init_kwargs:
+      prompt: "Extract and resolve a list of entities from the following text: {text}"
+      llm_model: "hf.co/Qwen/Qwen3-8B-GGUF:Q8_0"
+      llm_model_alias: "Qwen3-8B-GGUF:Q8_0"
+      llm_provider: "ollama"
+      source_data_pickle_path: "data/marine_accident_data.pkl"
+      base_url: "http://localhost:11434/v1"

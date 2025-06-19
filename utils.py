@@ -1,20 +1,41 @@
+import os
+import yaml
+from pathlib import Path
+from typing import List, Optional
+from pydantic import create_model
+from pydantic.fields import Field
+
+def ner_model(ner_entities, descriptions=None):
+    """
+    Create a Pydantic model for Named Entity Recognition with optional descriptions.
+    
+    Args:
+        ner_entities: List of entity names
+        descriptions: Optional dictionary mapping entity names to their descriptions
+    
+    Returns:
+        A Pydantic model class with the specified entities as fields
+    """
+    descriptions = descriptions or {}
+    fields = {}
+    
+    for name in ner_entities:
+        description = descriptions.get(name, f"A list of {name} entities")
+        fields[name] = (Optional[list[str]], Field(default=None, description=description))
+    NER = create_model("NER", **fields)
+
+    return NER 
+
+
 """
 Framework compatibility checker module.
 
 This module provides functionality to check if a framework is compatible with
 a specified model host based on the framework_compatibility.yaml configuration.
 """
-
-import yaml
-import os
-from pathlib import Path
-from typing import Dict, List, Any
-
-
 class FrameworkCompatibilityError(Exception):
     """Exception raised when a framework is not compatible with a model host."""
     pass
-
 
 class ConfigChecker:
     """
