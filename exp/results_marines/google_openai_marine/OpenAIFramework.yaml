@@ -9,7 +9,7 @@ OpenAIFramework:
       llm_model: "gemini-2.5-flash-preview-05-20"
       llm_provider: "google"
       base_url : "https://generativelanguage.googleapis.com/v1beta/openai/"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
+      
       api_delay_seconds: 5
       
 
@@ -20,7 +20,7 @@ OpenAIFramework:
       llm_model: "gemini-2.0-flash"
       llm_provider: "google"
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
+      
       api_delay_seconds: 5
       
 
@@ -31,7 +31,7 @@ OpenAIFramework:
       llm_model: "gemini-2.5-flash-preview-04-17"
       llm_provider: "google"
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
+      
       api_delay_seconds: 7
       
   
@@ -42,7 +42,7 @@ OpenAIFramework:
       llm_model: "gemini-2.0-flash-lite"
       llm_provider: "google"
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
+      
       api_delay_seconds: 3
       
 
@@ -53,7 +53,7 @@ OpenAIFramework:
       llm_model: "gemini-2.0-flash-thinking-exp-01-21"
       llm_provider: "google"
       base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
+      
       api_delay_seconds: 3
       
 

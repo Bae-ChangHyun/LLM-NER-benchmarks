@@ -6,7 +6,6 @@ MirascopeFramework:
       llm_model: "hf.co/Qwen/Qwen3-30B-A3B-GGUF:Q4_K_M"
       llm_model_alias: "Qwen3-30B:Q4_K_M"
       llm_provider: "ollama"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
       base_url: "http://localhost:11434/v1"
       
 
@@ -17,7 +16,6 @@ MirascopeFramework:
       llm_model: "hf.co/Qwen/Qwen3-14B-GGUF:Q8_0"
       llm_model_alias: "Qwen3-14B-GGUF:Q8_0"
       llm_provider: "ollama"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
       base_url: "http://localhost:11434/v1"
       
   
@@ -28,6 +26,5 @@ MirascopeFramework:
       llm_model: "hf.co/Qwen/Qwen3-14B-GGUF:Q4_K_M"
       llm_model_alias: "Qwen3-14B:Q4_K_M"
       llm_provider: "ollama"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
       base_url: "http://localhost:11434/v1"
       

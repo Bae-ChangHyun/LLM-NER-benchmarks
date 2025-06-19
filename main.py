@@ -47,6 +47,11 @@ def run_benchmark(
         "--results","-r",
         help="벤치마크 결과를 저장할 폴더명입니다. 기본값: 현재날짜 (results 하위)",
     ),
+    source_data_path: str = typer.Option(
+        ...,
+        "--data", "-d",
+        help="소스 데이터 pickle 파일의 경로입니다.",
+    ),
 ):
     
     if not os.path.exists(config_path):
@@ -71,17 +76,18 @@ def run_benchmark(
                     "llm_model": config["init_kwargs"].get("llm_model", "unknown"),  # 실제 모델 정보 저장
                     "llm_model_alias": config["init_kwargs"].get("llm_model_alias", ""),  # 모델 별칭 저장
                     "llm_provider": config["init_kwargs"].get("llm_provider", "unknown"),  # 모델 패밀리 정보 저장
-                    "source_data_path": config["init_kwargs"].get("source_data_pickle_path", ""),  # 소스 데이터 경로 저장
+                    "source_data_path": source_data_path,  # 소스 데이터 경로 저장
                 }
 
+                config["init_kwargs"]["source_data_path"] = source_data_path
+                # API 지연 시간 설정 확인(for free API)
+                api_delay_seconds = config["init_kwargs"].get("api_delay_seconds", 0)
+                is_first_sample = True
+                
                 framework_instance = factory(
                     config_key, device=device, **config["init_kwargs"]
                 )
                 logger.info(f"Using {type(framework_instance)}")
-                
-                # API 지연 시간 설정 확인(for free API)
-                api_delay_seconds = config["init_kwargs"].get("api_delay_seconds", 0)
-                is_first_sample = True
 
                 if isinstance(framework_instance.source_data, pd.DataFrame):
                     for row in tqdm(

@@ -94,12 +94,13 @@ I would like to express gratitude to the original author for their contribution 
 
    - `--config`, `-c`: Specify configuration file path (default: `config.yaml`, Required)
    - `--results`, `-r`: Specify results directory (default: `results/{current_date}`, Optional)
+   - `--data`, `-d`: Specify source data directory (Required)
 
    **Examples:**
 
    ```bash
    # Run
-   python -m main run-benchmark --config sample_config/openai/openai_openai.yaml --results my_experiment
+   python -m main run-benchmark --config sample_config/openai/openai_openai.yaml --results my_experiment --data data/my_dataset.pkl
 
    # Get help
    python main.py run-benchmark --help
@@ -176,7 +177,6 @@ Here's how to set up your configuration:
          llm_model: "gpt-4o-mini-2024-07-18" # Model name (required)
          llm_model_alias: "gpt-4o-mini" # Model alias for display (optional)
          llm_provider: "openai" # Provider type (required)
-         source_data_pickle_path: "data/marine_accident_data.pkl" # Ground truth dataset (required)
          base_url: "http://localhost:11434" # Custom API endpoint (optional)
          api_delay_seconds: 1 # API delay between requests (optional)
    ```
@@ -316,7 +316,6 @@ Each framework supports specific model providers. The following table shows the 
          prompt: "Your prompt template with {text}"
          llm_model: "your-model"
          llm_provider: "your-provider"
-         source_data_pickle_path: "data/marine_accident_data.pkl"
    ```
 
 ## Framework Reference

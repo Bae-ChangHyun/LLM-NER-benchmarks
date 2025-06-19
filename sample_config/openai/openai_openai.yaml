@@ -7,7 +7,6 @@ OpenAIFramework:
       prompt: "Extract and resolve a list of entities from the following text: {text}"
       llm_model: "o4-mini-2025-04-16"
       llm_provider: "openai"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
       
 
   - task: "ner"
@@ -16,7 +15,6 @@ OpenAIFramework:
       prompt: "Extract and resolve a list of entities from the following text: {text}"
       llm_model: "gpt-4.1-nano-2025-04-14"
       llm_provider: "openai"
-      source_data_pickle_path: "data/marine_accident_data.pkl"
       
 
   - task: "ner"
